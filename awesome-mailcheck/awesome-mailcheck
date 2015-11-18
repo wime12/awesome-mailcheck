@@ -1,0 +1,20 @@
+#!/bin/sh
+
+check() {
+    wait_on -w "$MAILBOX"
+    mail -H | \
+	awk -f '
+    NR == 2 {
+        for (i = 5; i <= NF; i += 2) {
+	    if ($i == "new") new = $(i - 1)
+	    else if ($i == "unread") unread = $(i - 1)
+	    exit
+	}
+    }
+
+    END {
+        print new ? new : 0, unread ? unread : 0
+    }'
+}
+
+while :; do awesome-client "mailwidget.set_text(\"MAIL $(check)\")"; done
