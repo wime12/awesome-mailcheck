@@ -1,20 +1,33 @@
 #!/bin/sh
 
 check() {
-    wait_on -w "$MAILBOX"
     mail -H | \
-	awk -f '
+	awk '
     NR == 2 {
         for (i = 5; i <= NF; i += 2) {
 	    if ($i == "new") new = $(i - 1)
 	    else if ($i == "unread") unread = $(i - 1)
-	    exit
 	}
+	exit
     }
 
     END {
-        print new ? new : 0, unread ? unread : 0
+        if (new > 0) print "new"
+	else if (unread > 0) print "unread"
+	else print "nil"
     }'
+    wait_on "$MAIL"
 }
 
-while true; do awesome-client "mailwidget.set_text(\"MAIL $(check)\")"; done
+while true; do check; done | \
+while read status; do
+  case $status in
+    new)
+      echo 'mymailbox:set_markup("<span foreground=\"red\" font_weight=\"bold\">MAIL</span>")' | awesome-client
+      ;;
+    unread)
+      echo 'mymailbox:set_markup("<span foreground=\"yellow\">MAIL</span>")' | awesome-client
+      ;;
+    *)
+  esac
+done
