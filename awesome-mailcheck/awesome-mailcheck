@@ -17,4 +17,4 @@ check() {
     }'
 }
 
-while :; do awesome-client "mailwidget.set_text(\"MAIL $(check)\")"; done
+while true; do awesome-client "mailwidget.set_text(\"MAIL $(check)\")"; done
