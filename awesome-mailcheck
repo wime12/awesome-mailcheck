@@ -23,10 +23,10 @@ while true; do check; done | \
 while read status; do
   case $status in
     new)
-      echo 'mymailbox:set_markup("<span foreground=\"red\" font_weight=\"bold\">MAIL</span>")' | awesome-client
+      echo 'mymailbox:set_markup("<span foreground=\"red\" font_size=\"20000\" font_weight=\"bold\">'$'\u2709''</span>")' | awesome-client
       ;;
     unread)
-      echo 'mymailbox:set_markup("<span foreground=\"yellow\">MAIL</span>")' | awesome-client
+      echo 'mymailbox:set_markup("<span foreground=\"yellow\" font_size=\"20000\">'$'\u2709''</span>")' | awesome-client
       ;;
     *)
       echo 'mymailbox:set_text("")' | awesome-client
