@@ -21,12 +21,6 @@ awk_source='
 	else print "'"$nil_text"'"
     }'
 
-echo "$awk_source"
-
-mail -H 2>/dev/null | awk "$awk_source"
-
-exit
-
 while true; do
     mail -H 2>/dev/null | awk "$awk_source" | awesome-client
     wait_on "$MAIL"
