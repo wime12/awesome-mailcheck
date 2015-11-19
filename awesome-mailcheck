@@ -6,24 +6,22 @@ unread_text='mymailbox:set_markup("<span foreground=\"yellow\" font_size=\"18000
 
 nil_text='mymailbox:set_text("")'
 
-check() {
-    mail -H 2>/dev/null | awk '
-	NR == 2 {
-	    for (i = 5; i <= NF; i += 2) {
-	      	if ($i == "new") new = $(i - 1)
-		else if ($i == "unread") unread = $(i - 1)
-	    }
-	    exit
+awk_source='
+    NR == 2 {
+	for (i = 5; i <= NF; i += 2) {
+	    if ($i == "new") new = $(i - 1)
+	    else if ($i == "unread") unread = $(i - 1)
 	}
+	exit
+    }
 
-	END {
-	    if (new > 0) print '"$new_text"'
-	    else if (unread > 0) print '"$unread_text"'
-	    else print '"$nil_text"'
-	}'
-}
+    END {
+	if (new > 0) print '"$new_text"'
+	else if (unread > 0) print '"$unread_text"'
+	else print '"$nil_text"'
+    }'
 
 while true; do
-    check | awesome-client
+    mail -H 2>/dev/null | awk "$awk_source" | awesome-client
     wait_on "$MAIL"
 done
