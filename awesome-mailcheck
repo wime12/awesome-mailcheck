@@ -24,6 +24,6 @@ check() {
 }
 
 while true; do
-    echo "$(check)" | awesome-client
+    check | awesome-client
     wait_on "$MAIL"
 done
