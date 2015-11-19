@@ -1,8 +1,10 @@
 #!/bin/sh
 
-new_text='mymailbox:set_markup("<span foreground=\"red\" font_size=\"18000\" font_weight=\"bold\">'$'\u2709''</span>")'
+new_text='mymailbox:set_markup("<span foreground=\"red\" \
+font_size=\"18000\" font_weight=\"bold\">'$'\u2709''</span>")'
 
-unread_text='mymailbox:set_markup("<span foreground=\"yellow\" font_size=\"18000\">'$'\u2709''</span>")'
+unread_text='mymailbox:set_markup("<span foreground=\"yellow\" \
+font_size=\"18000\">'$'\u2709''</span>")'
 
 nil_text='mymailbox:set_text("")'
 
