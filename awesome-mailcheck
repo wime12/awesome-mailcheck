@@ -1,5 +1,11 @@
 #!/bin/sh
 
+new_text='mymailbox:set_markup("<span foreground=\"red\" font_size=\"18000\" font_weight=\"bold\">'$'\u2709''</span>")'
+
+unread_text='mymailbox:set_markup("<span foreground=\"yellow\" font_size=\"18000\">'$'\u2709''</span>")'
+
+nil_text='mymailbox:set_text("")'
+
 check() {
     mail -H 2>/dev/null | awk '
 	NR == 2 {
@@ -11,28 +17,13 @@ check() {
 	}
 
 	END {
-	    if (new > 0) print "new"
-	    else if (unread > 0) print "unread"
-	    else print "nil"
+	    if (new > 0) print '"$new_text"'
+	    else if (unread > 0) print '"$unread_text"'
+	    else print '"$nil_text"'
 	}'
 }
 
-new_text='mymailbox:set_markup("<span foreground=\"red\" font_size=\"18000\" font_weight=\"bold\">'$'\u2709''</span>")'
-
-unread_text='mymailbox:set_markup("<span foreground=\"yellow\" font_size=\"18000\">'$'\u2709''</span>")'
-
-nil_text='mymailbox:set_text("")'
-
 while true; do
-    case "$(check)" in
-	new)
-	    echo "$new_text" | awesome-client
-	    ;;
-	unread)
-	    echo "$unread_text" | awesome-client
-	    ;;
-	*)
-	    echo "$nil_text" | awesome-client
-    esac
+    echo "$(check)" | awesome-client
     wait_on "$MAIL"
 done
