@@ -5,10 +5,13 @@
 #    the awesome window manager to display a text in a widget
 #    every time the mailbox changes.
 #
-# Add the following code to ~/.config/awesome/rc.lua to activate this script
+# Add the following code to ~/.config/awesome/rc.lua at the appropriate places
+# to activate this script
 #
 #    mymailbox = wibox.widget.textbox()
-
+#
+#    right_layout:add(mymailbox)
+#
 #    local mailcheck_pid_file="/path/to/home/directory/.awesome-mailcheck.pid"
 #    os.execute("daemon -P "..mailcheck_pid_file.." /path/to/script/awesome-mailcheck")
 #
