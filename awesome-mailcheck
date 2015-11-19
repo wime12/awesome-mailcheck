@@ -1,12 +1,10 @@
 #!/bin/sh
 
-new_text='mymailbox:set_markup("<span foreground=\"red\" \
-font_size=\"18000\" font_weight=\"bold\">'$'\u2709''</span>")'
+new_text='mymailbox:set_markup(\"<span foreground=\\\"red\\\" font_size=\\\"18000\\\" font_weight=\\\"bold\\\">'$'\u2709''</span>\")'
 
-unread_text='mymailbox:set_markup("<span foreground=\"yellow\" \
-font_size=\"18000\">'$'\u2709''</span>")'
+unread_text='mymailbox:set_markup(\"<span foreground=\\\"yellow\\\" font_size=\\\"18000\\\">'$'\u2709''</span>\")'
 
-nil_text='mymailbox:set_text("")'
+nil_text='mymailbox:set_text(\"\")'
 
 awk_source='
     NR == 2 {
@@ -18,10 +16,16 @@ awk_source='
     }
 
     END {
-	if (new > 0) print '"$new_text"'
-	else if (unread > 0) print '"$unread_text"'
-	else print '"$nil_text"'
+	if (new > 0) print "'"$new_text"'"
+	else if (unread > 0) print "'"$unread_text"'"
+	else print "'"$nil_text"'"
     }'
+
+echo "$awk_source"
+
+mail -H 2>/dev/null | awk "$awk_source"
+
+exit
 
 while true; do
     mail -H 2>/dev/null | awk "$awk_source" | awesome-client
